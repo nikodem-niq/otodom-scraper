@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./app.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/nikodem-niq/otodom-scraper/issues"
   },
-  "homepage": "https://github.com/nikodem-niq/otodom-scraper#readme"
+  "homepage": "https://github.com/nikodem-niq/otodom-scraper#readme",
+  "dependencies": {
+    "cloudflare-scraper": "^2.0.0",
+    "node-fetch": "^2.6.11",
+    "node-libcurl": "^3.0.0",
+    "parse5": "^7.1.2",
+    "puppeteer": "^20.2.1",
+    "request": "^2.88.2",
+    "superagent": "^8.0.9"
+  }
 }
