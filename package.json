@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/nikodem-niq/otodom-scraper#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "cloudflare-scraper": "^2.0.0",
+    "moment": "^2.29.4",
     "node-fetch": "^2.6.11",
     "node-libcurl": "^3.0.0",
     "parse5": "^7.1.2",
