@@ -6,7 +6,7 @@ fetch = require('node-fetch'),
 cheerio = require('cheerio');
 
 module.exports.fetchURLs = async () => { 
-    const browser = await puppeteer.launch({headless: "new"})
+    const browser = await puppeteer.launch({headless: "true"})
     const mainPage = await browser.newPage()
     await mainPage.goto(`${config.BASE_URL}${config.EXTENDED_EXAMPLE_URL}`, {waitUntil: 'domcontentloaded'})
     const currentUrl = mainPage.url()
@@ -32,17 +32,24 @@ module.exports.fetchURLs = async () => {
             const data = await fetch(value)
             const body = await data.text()
             const $ = cheerio.load(body)
-            const aTagItems = $('a').
-            toArray().
-            map(el => $(el).attr('href')).
-            filter(href => href.startsWith('/pl/oferta/'))
+            const jsonData = JSON.parse($('#__NEXT_DATA__').text());
+            const { props : { pageProps : { data : { searchAds : { items }}}}} = jsonData
+            for(const flatUrl of items) {
+                offerLinks.push(`/pl/oferta/${flatUrl.slug}`);
+            }
+            // console.log(items[0])
+            // const aTagItems = $('a').
+            // toArray().
+            // map(el => $(el).attr('href')).
+            // filter(href => href.startsWith('/pl/oferta/'))
+            // console.log(aTagItems);
 
-            offerLinks.push(aTagItems)
+            // offerLinks.push(aTagItems)
         } catch(error) {
             console.error(`${value} error ${error}`)
         }
     }
     await browser.close()
-    // console.log(offerLinks[0].length)
+    console.log(offerLinks.length)
     return offerLinks.flat();
 }
