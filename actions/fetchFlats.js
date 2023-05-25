@@ -37,14 +37,6 @@ module.exports.fetchURLs = async () => {
             for(const flatUrl of items) {
                 offerLinks.push(`/pl/oferta/${flatUrl.slug}`);
             }
-            // console.log(items[0])
-            // const aTagItems = $('a').
-            // toArray().
-            // map(el => $(el).attr('href')).
-            // filter(href => href.startsWith('/pl/oferta/'))
-            // console.log(aTagItems);
-
-            // offerLinks.push(aTagItems)
         } catch(error) {
             console.error(`${value} error ${error}`)
         }

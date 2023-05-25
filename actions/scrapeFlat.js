@@ -3,6 +3,8 @@ const _config = require('../config')
 const cheerio = require('cheerio')
 const { Parser, parseAsync } = require('json2csv')
 const fs = require('fs').promises
+const moment = require('moment');
+
 
 module.exports.scrapeFlat = async (urls) => {
     const flatsInfo = []
@@ -94,17 +96,11 @@ module.exports.scrapeFlat = async (urls) => {
                     rent,
                     deposit,
                     rooms,
-                    url: `${_config.BASE_URL}${value}`
-                    // description,
-                    // images
+                    urlForGSheets: `=HYPERLINK("${_config.BASE_URL}${value}"; "${id}")`,
+                    urlForMicrosoftExcel: `=HIPERŁĄCZE("${_config.BASE_URL}${value}", "${id}")`
                 }
-                // console.log(phoneNumber)
                 flatsInfo.push(flatJson)
             }
-            //  else {
-            //     console.log(`Skipping flat... no info provided`)
-            //     continue
-            // }
         } catch(err) {
             console.log(err)
         }
@@ -112,11 +108,10 @@ module.exports.scrapeFlat = async (urls) => {
 
     }
     try {
-        // console.log(flatsInfo)
-        const fields = ['id', 'title', 'district', 'street', 'phoneNumber', 'area', 'price', 'rent', 'deposit', 'rooms', 'url']
+        const fields = ['id', 'title', 'district', 'street', 'phoneNumber', 'area', 'price', 'rent', 'deposit', 'rooms', 'urlForGSheets', 'urlForMicrosoftExcel']
         const csv = await parseAsync(flatsInfo, {withBOM: true, fields})
-        // await fs.writeFile('./resultsss.json', JSON.stringify(flatsInfo[0], null, 4), "utf-8")
-        await fs.writeFile('./results.csv', csv, "utf-8")
+        const fileName = "./csv/"+moment().format('YYYY.MM.DD.HH.mm')+'.csv'
+        await fs.writeFile(fileName, csv, "utf-8")
         return csv
     } catch(error) {
         console.error(error)
